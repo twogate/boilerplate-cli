@@ -1,0 +1,8 @@
+startSigil: "{{"
+endSigil: "}}"
+templateDir: .
+outDir: /tmp
+replaces:
+  "./target.txt":
+      Principessa: "principe"
+      stelle: "luna"

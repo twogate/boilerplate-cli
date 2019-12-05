@@ -2,16 +2,26 @@
   "name": "aplika-cli",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require ts-node/register --colors test/unit/**/*.ts test/unit/*.ts",
+    "dev": "ts-node src/index.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/chai": "^4.2.6",
+    "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.14",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "@types/js-yaml": "^3.12.1",
+    "js-yaml": "^3.13.1"
   }
 }
