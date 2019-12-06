@@ -1,8 +1,8 @@
 Nessun dorma!
 Nessun dorma!
-Tu pure, o {{Principessa}},
+Tu pure, o {{ Principessa }},
 nella tua fredda stanza
-guardi le {{stelle}}
+guardi le {{ stelle }}
 che tremano d'amore e di speranza...
 
 Ma il mio mistero è chiuso in me,

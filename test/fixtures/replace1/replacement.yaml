@@ -2,7 +2,10 @@ startSigil: "{{"
 endSigil: "}}"
 templateDir: .
 outDir: /tmp
+
 replaces:
-  "./target.txt":
-      Principessa: "principe"
-      stelle: "luna"
+    - template: "target.txt"
+      out: "target.txt"
+      placeholders:
+         Principessa: "principe"
+         stelle: "luna"
