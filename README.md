@@ -58,11 +58,14 @@ replaces:
    - `templateDir` → `replaces[].template`
 - 出力先
    - `outDir` → `replaces[].out`
-と結合されます。
+
+と解決されます。
 
 基本的に共通する部分を `templateDir` または `outDir` にくくり出して、差異がある部分だけ各 `replaces` の `template` または `out` で定義すると良いでしょう。
 
 全てが相対パスだった場合、置換定義ファイルから見た相対パスで解決されます。
+
+置換定義ファイルとテンプレート、出力先の相対的位置を固定しておけば、どこのカレントワーキングディレクトリにいても置換定義ファイルの定義どうりのパスが使われます。
 
 ### Placeholder
 プレースホルダーは `startSigil` + `\s*?` + `placeholderText` + `\s*?` + `endSigil` のような正規表現置換で行われているので、`{{PLACEHOLDER}}` だけでなく `{{ PLACEHOLDER }}` のような表記も可能です。
