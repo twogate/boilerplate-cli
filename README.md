@@ -3,7 +3,7 @@
 テンプレートファイル中の任意のプレースホルダーテキストを一括で置き換えるツール。
 
 ## Replacement definition (置換定義ファイル)
-使うには、置換定義ファイルを用意します：  
+使うには、置換定義ファイルを用意します：
 
 ```yaml
 startSigil: "{{"         # 置き換えプレースホルダー開始sigil
@@ -68,3 +68,10 @@ replaces:
 プレースホルダーは `startSigil` + `\s*?` + `placeholderText` + `\s*?` + `endSigil` のような正規表現置換で行われているので、`{{PLACEHOLDER}}` だけでなく `{{ PLACEHOLDER }}` のような表記も可能です。
 
 なお、`startSigil` `endSigil` とプレースホルダーテキストには正規表現は利用できません。
+
+## 実行
+置換定義ファイルを書いたら、そのパスを指定して実行します。
+
+```bash
+npx @twogate/boilerplate path/to/replacement.yml
+```
