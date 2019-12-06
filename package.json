@@ -1,8 +1,10 @@
 {
-  "name": "aplika-cli",
+  "name": "@twogate/boilerplate",
   "version": "1.0.0",
-  "description": "",
+  "description": "テンプレートファイル中の任意のプレースホルダーテキストを一括で置き換えるツール。",
   "main": "dist/index.js",
+  "bin": "bin/cli.js",
+  "prepublish": "npm run build",
   "scripts": {
     "test": "mocha --require ts-node/register --colors test/unit/**/*.ts test/unit/*.ts",
     "dev": "ts-node src/index.ts",
@@ -24,5 +26,12 @@
     "@types/js-yaml": "^3.12.1",
     "escape-string-regexp": "^2.0.0",
     "js-yaml": "^3.13.1"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.l.twogate.net:fanapp/boilerplate-cli.git"
   }
 }

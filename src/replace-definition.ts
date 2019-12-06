@@ -33,8 +33,6 @@ export default class ReplaceDefinition {
     this.sigils[1] = escapeStringRegexp(this.definition.endSigil)
     this.templateBasePath = path.resolve(path.dirname(filePath), this.definition.templateDir)
     this.outputBasePath = path.resolve(path.dirname(filePath), this.definition.outDir)
-    console.log('templateBasePath', this.templateBasePath)
-    console.log('outputBasePath', this.outputBasePath)
   }
 
   replace() {
@@ -44,12 +42,11 @@ export default class ReplaceDefinition {
   replaceFiles(replace: Replace) {
       const templatePath = path.resolve(this.templateBasePath, replace.template)
       const outPath = path.resolve(this.outputBasePath, replace.out)
-      console.log('templatePath' , templatePath)
-      console.log('outPath' , outPath)
+      console.log('[templatePath]' , templatePath)
+      console.log('[outPath]' , outPath)
       const template = fs.readFileSync(templatePath, 'utf8')
       const replaced = this.replacePlaceholders(template, replace.placeholders)
       fs.writeFileSync(outPath, replaced)
-      console.log(replaced)
   }
 
   replacePlaceholders(template: string, placeholders: Placeholder) {

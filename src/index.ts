@@ -1,4 +1,9 @@
 import ReplaceDefinition from './replace-definition'
 
-const rd = new ReplaceDefinition('./test/fixtures/replace1/replacement.yaml')
-rd.replace()
+const replacementDefinition = process.argv[2]
+if (replacementDefinition) {
+  const rd = new ReplaceDefinition(replacementDefinition)
+  rd.replace()
+} else {
+  console.log('Specify a replacement definition YAML.')
+}

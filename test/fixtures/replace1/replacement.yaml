@@ -4,8 +4,14 @@ templateDir: .
 outDir: ../../tmp
 
 replaces:
-    - template: "template.txt"
+    - template: "template-1.txt"
       out: "out-1.txt"
       placeholders:
          Principessa: "principe"
          stelle: "luna"
+
+    - template: "template-2.txt"
+      out: "out-2.txt"
+      placeholders:
+         Angels: "Devils"
+         plucking: "bursting"
