@@ -1,0 +1,20 @@
+image: node:12-alpine
+
+cache:
+  key: "$CI_COMMIT_REF_NAME"
+  paths:
+    - node_modules
+
+stages:
+  - prepare
+  - test
+
+npm-install:
+  stage: prepare
+  script:
+    - npm install
+
+test:
+  stage: test
+  script:
+    - npm run test
