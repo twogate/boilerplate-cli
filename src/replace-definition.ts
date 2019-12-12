@@ -41,7 +41,13 @@ export default class ReplaceDefinition {
 
   replaceFiles(replace: Replace) {
       const templatePath = path.resolve(this.templateBasePath, replace.template)
-      const outPath = path.resolve(this.outputBasePath, replace.out)
+      let outPath
+      if (replace.out) {
+        outPath = path.resolve(this.outputBasePath, replace.out)
+      } else {
+        outPath = path.resolve(this.outputBasePath, replace.template)
+        console.log('out not defined', this.outputBasePath, replace.template, outPath)
+      }
       console.log('[templatePath]' , templatePath)
       console.log('[outPath]' , outPath)
       const template = fs.readFileSync(templatePath, 'utf8')
