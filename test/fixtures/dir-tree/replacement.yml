@@ -4,28 +4,28 @@ templateDir: .
 outDir: ../../tmp
 
 replaces:
-    - template: "d1-template.txt"
+    - template: "depth1/d1-template.txt"
       placeholders:
          Principessa: "principe"
          stelle: "luna"
-    - template: "d1-move-only.txt"
-    - template: "d1-move-only2.txt"
-    - template: "depth2/d2-template.txt"
+    - template: "depth1/d1-move-only.txt"
+    - template: "depth1/d1-move-only2.txt"
+    - template: "depth1/depth2/d2-template.txt"
       placeholders:
          Principessa: "principe"
          stelle: "luna"
-    - template: "depth2/d2-template2.txt"
+    - template: "depth1/depth2/d2-template2.txt"
       placeholders:
          Principessa: "principe"
          stelle: "luna"
-    - template: "depth2/d2-move-only.txt"
-    - template: "depth2/d2-move-only2.txt"
-    - template: "depth3/d3-move-only.txt"
-    - template: "depth3/d3-template.txt"
+    - template: "depth1/depth2/d2-move-only.txt"
+    - template: "depth1/depth2/d2-move-only2.txt"
+    - template: "depth1/depth2/depth3/d3-move-only.txt"
+    - template: "depth1/depth2/depth3/d3-template.txt"
       placeholders:
          Principessa: "principe"
          stelle: "luna"
-    - template: "depth3/d3-template2.txt"
+    - template: "depth1/depth2/depth3/d3-template2.txt"
       placeholders:
          Principessa: "principe"
          stelle: "luna"
