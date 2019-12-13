@@ -4,7 +4,7 @@ templateDir: .
 outDir: ../../tmp
 
 replaces:
-    - template: "depth1/d1-template.txt"
+    - template: "depth1/d1-template.c"
       placeholders:
          Principessa: "principe"
          stelle: "luna"
