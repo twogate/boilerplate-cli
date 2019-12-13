@@ -1,8 +1,9 @@
+/* https://github.com/keiya/brainfuck */
 #include <stdio.h>
 #include <stdlib.h>
 
 char *prog;
-int ary[30000];
+int ary[##arysize##];
 int *ptr = ary;
 int idx;
 
@@ -161,7 +162,7 @@ main(int argc, char *argv[])
     prog = prog - sz;
 
     int i;
-    for (i=0; i<30000; i++)
+    for (i=0; i<##arysize##; i++)
         ary[i] = 0;
 
     fflush(stdin);

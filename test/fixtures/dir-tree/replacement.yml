@@ -1,31 +1,47 @@
-startSigil: "{{"
-endSigil: "}}"
+startSigil: "##"
+endSigil: "##"
 templateDir: .
 outDir: ../../tmp
 
 replaces:
     - template: "depth1/d1-template.c"
       placeholders:
-         Principessa: "principe"
-         stelle: "luna"
+         arysize: 30000
     - template: "depth1/d1-move-only.txt"
     - template: "depth1/d1-move-only2.txt"
-    - template: "depth1/depth2/d2-template.txt"
+    - template: "depth1/depth2/d2-template.c"
       placeholders:
-         Principessa: "principe"
-         stelle: "luna"
-    - template: "depth1/depth2/d2-template2.txt"
+         SIZE: 262144
+    - template: "depth1/depth2/d2-template2.y"
       placeholders:
-         Principessa: "principe"
-         stelle: "luna"
+         redlist: "redirection_list"
+         cnd_and: "CND_AND"
     - template: "depth1/depth2/d2-move-only.txt"
     - template: "depth1/depth2/d2-move-only2.txt"
     - template: "depth1/depth2/depth3/d3-move-only.txt"
-    - template: "depth1/depth2/depth3/d3-template.txt"
+    - template: "depth1/depth2/depth3/d3-template.html"
       placeholders:
-         Principessa: "principe"
-         stelle: "luna"
-    - template: "depth1/depth2/depth3/d3-template2.txt"
+         ALL: |
+                <html>
+                <head>
+                <meta charset="utf-8">
+                <script src="mootools-core-1.4.5-full-nocompat-yc.js"></script>
+                <script src="Audiolet/src/audiolet/Audiolet.min.js"></script>
+                <script src="audiolet_app.js"></script>
+                <script src="music.js/music.js"></script>
+                <script src="easeljs-0.7.1.min.js"></script>
+                <script src="cf.js"></script>
+                </head>
+                <body onLoad="init();">
+                <h1>Playable Circle of Fifths</h1>
+                <p lang="en"><strong>Click to play</strong> the chord. Powered by Web Audio API &amp; Canvas</p>
+                    <canvas id="demoCanvas" width="620" height="620">
+                use a Canvas-supported browser
+                    </canvas>
+                <p lang="ja">音が鳴る五度圏です。クリックで再生できます。Web Audio APIとCanvasを利用しています。</p>
+                </body>
+                </html>
+    - template: "depth1/depth2/depth3/d3-template2.pde"
       placeholders:
-         Principessa: "principe"
-         stelle: "luna"
+         "+-$#@!/\"][\\,": 5000
+         "?><:\"|}{+_)(*&^^%$#@~`": 255
