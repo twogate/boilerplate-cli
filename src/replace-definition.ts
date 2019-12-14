@@ -37,8 +37,8 @@ export default class ReplaceDefinition {
     this.outputBasePath = path.resolve(path.dirname(filePath), this.definition.outDir)
   }
 
-  replace() {
-    this.definition.replaces.forEach(replace => this.replaceFiles(replace))
+  replace(): Promise<void>[] {
+    return this.definition.replaces.map(replace => this.replaceFiles(replace))
   }
 
   replaceFiles(replace: Replace) {
@@ -50,7 +50,7 @@ export default class ReplaceDefinition {
       outPath = path.resolve(this.outputBasePath, replace.template)
     }
     console.log('[templatePath]' , templatePath)
-    console.log('[outPath]' , outPath)
+    console.log(' --> [outPath]' , outPath)
     recursiveMkdir(outPath)
     const template = fs.readFileSync(templatePath, 'utf8')
     if (replace.placeholders) {

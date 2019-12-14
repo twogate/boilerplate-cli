@@ -5,42 +5,58 @@ import ReplaceDefinition from '../../src/replace-definition'
 
 describe('replace-definition dirtree test', () => {
   let rd
-  before(() => {
+  before(async () => {
     rd = new ReplaceDefinition('./test/fixtures/dir-tree/replacement.yml')
-    rd.replace()
-  })
-
-  it('should exists depth 1 files', async () => {
-    const exists = fs.existsSync('./test/tmp/depth1/d1-move-only.txt')
-                && fs.existsSync('./test/tmp/depth1/d1-move-only2.txt')
-                && fs.existsSync('./test/tmp/depth1/d1-template.c')
-    expect(exists).to.be.true
-  })
-
-  it('should exists depth 2 files', async () => {
-    const exists = fs.existsSync('./test/tmp/depth1/depth2/d2-template.c')
-                && fs.existsSync('./test/tmp/depth1/depth2/d2-template2.y')
-                && fs.existsSync('./test/tmp/depth1/depth2/d2-move-only.txt')
-                && fs.existsSync('./test/tmp/depth1/depth2/d2-move-only2.txt')
-    expect(exists).to.be.true
-  })
-
-  it('should exists depth 3 files', async () => {
-     const exists = fs.existsSync('./test/tmp/depth1/depth2/depth3/d3-template.html')
-                 && fs.existsSync('./test/tmp/depth1/depth2/depth3/d3-template2.pde')
-    expect(exists).to.be.true
+    await Promise.all(rd.replace())
   })
 
   it('should valid template output of d1-template', async () => {
-
+    const template = fs.readFileSync('./test/tmp/depth1/d1-template.c', 'utf8')
+    expect(template).to.be.equal(d1template)
   })
   it('should valid template output of d2-template', async () => {
+    const template = fs.readFileSync('./test/tmp/depth1/depth2/d2-template.c', 'utf8')
+    expect(template).to.be.equal(d2template)
+  })
+  it('should valid template output of d2-template2', async () => {
+    const template = fs.readFileSync('./test/tmp/depth1/depth2/d2-template2.y', 'utf8')
+    expect(template).to.be.equal(d2template2)
   })
   it('should valid template output of d3-template', async () => {
+    const template = fs.readFileSync('./test/tmp/depth1/depth2/depth3/d3-template.html', 'utf8')
+    expect(template).to.be.equal(d3template)
   })
   it('should valid template output of d3-template2', async () => {
+    const template = fs.readFileSync('./test/tmp/depth1/depth2/depth3/d3-template2.pde', 'utf8')
+    expect(template).to.be.equal(d3template2)
+  })
+  it('should valid template output of d1-move', async () => {
+    const template = fs.readFileSync('./test/tmp/depth1/d1-move-only.txt', 'utf8')
+    expect(template).to.be.equal(d1move)
+  })
+  it('should valid template output of d1-move2', async () => {
+    const template = fs.readFileSync('./test/tmp/depth1/d1-move-only2.txt', 'utf8')
+    expect(template).to.be.equal(d1move2)
+  })
+  it('should valid template output of d2-move', async () => {
+    const template = fs.readFileSync('./test/tmp/depth1/depth2/d2-move-only.txt', 'utf8')
+    expect(template).to.be.equal(d2move)
+  })
+  it('should valid template output of d2-move2', async () => {
+    const template = fs.readFileSync('./test/tmp/depth1/depth2/d2-move-only2.txt', 'utf8')
+    expect(template).to.be.equal(d2move2)
+  })
+  it('should valid template output of d3-move', async () => {
+    const template = fs.readFileSync('./test/tmp/depth1/depth2/depth3/d3-move-only.txt', 'utf8')
+    expect(template).to.be.equal(d3move)
   })
 })
+
+const d1move = "d1 move 1\n\n##ShouldNotBeReplaced##\n"
+const d1move2 = "d1 move 2\n\n\n##ShouldNotBeReplaced##\n\n"
+const d2move = "##ShouldNotBeReplaced##\n\nd2 move only\n"
+const d2move2 = "##ShouldNotBeReplaced##\n\nd2 move only2\n"
+const d3move = "##d3 move##\n\n\n"
 
 const d1template = "/* https://github.com/keiya/brainfuck */\n#include <stdio.h>\n#include <stdlib.h>\n\nchar *prog;\nint ary[30000];\nint *ptr = ary;\nint idx;\n\nint stack[100];\nint stack_flag[100];\nint stack_idx = 0;\n\nvoid\ninit()\n{\n    int i;\n    for (i=0;i<100;i++) {\n        stack[i] = 0;\n        stack_flag[i] = 0;\n    }\n}\n\nvoid\npush(int val,int flag)\n{\n    if (stack_idx < 100) {\n        stack[stack_idx++] = val;\n        stack_flag[stack_idx] = flag;\n    }\n    else {\n        fprintf(stderr,\"stack overflow\");\n        exit(EXIT_FAILURE);\n    }\n}\n\nint\npop()\n{\n    if (stack_idx > 0) {\n        int tmp = stack[--stack_idx];\n        return tmp;\n    }\n    else {\n        fprintf(stderr,\"stack underflow\");\n        exit(EXIT_FAILURE);\n    }\n}\n\nint\ncheck()\n{\n    int i;\n    return stack_flag[stack_idx];\n}\n\nint\nread()\n{\n    if (prog[idx] == \'\\0\')\n        return EOF;\n    return prog[idx];\n}\n\nint\ninterpret(int startidx)\n{\n    //printf(\"SI: %d\\n\",startidx);\n    int ch = read();\n    //printf(\"%d\\n\",check());\n    switch (ch) {\n        case \'>\':\n            idx++;\n            if (check()) break;\n            ptr++;\n            break;\n        case \'<\':\n            idx++;\n            if (check()) break;\n            ptr--;\n            break;\n        case \'+\':\n            idx++;\n            if (check()) break;\n            (*ptr)++;\n            break;\n        case \'-\':\n            idx++;\n            if (check()) break;\n            (*ptr)--;\n            break;\n        case \'.\':\n            idx++;\n            if (check()) break;\n            putchar(*ptr);\n            fflush(stdout);\n            break;\n        case \',\':\n            idx++;\n            if (check()) break;\n            *ptr = getchar();\n            break;\n        case \'[\':\n            if (*ptr == 0) {\n                push(idx,1);\n                idx++;\n            }\n            else {\n                push(idx,0);\n                idx++;\n            }\n            break;\n        case \']\':\n            if (check() != 1) {\n                idx = pop();\n            }\n            else {\n                pop();\n                idx++;\n            }\n            break;\n        case EOF:\n            return 0;\n        default:\n            idx++;\n            break;\n            //exit(0);\n    }\n    return 1;\n}\n\nint\nmain(int argc, char *argv[])\n{\n\n    init();\n\n    FILE *fp;\n    if (argc != 2)\n        exit(EXIT_FAILURE);\n    if ((fp = fopen(argv[1],\"r\")) == NULL) {\n        fprintf(stdout,\"file\\n\");\n        exit(EXIT_FAILURE);\n    }\n\n    fseek(fp, 0L, SEEK_END);\n    int sz = ftell(fp);\n    fseek(fp, 0L, SEEK_SET);\n\n    if (NULL == (prog = (char *)malloc(sz))) {\n        fprintf(stdout,\"malloc\\n\");\n        exit(EXIT_FAILURE);\n    }\n\n    char dbg;\n    while((*prog = fgetc(fp)) != EOF) {\n        *prog++;\n    }\n    *prog = \'\\0\';\n    fclose(fp);\n\n    prog = prog - sz;\n\n    int i;\n    for (i=0; i<30000; i++)\n        ary[i] = 0;\n\n    fflush(stdin);\n\n    idx = 0;\n    while(interpret(0)) {\n\n    }\n}\n"
 

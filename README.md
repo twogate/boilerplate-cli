@@ -2,6 +2,8 @@
 
 テンプレートファイル中の任意のプレースホルダーテキストを一括で置き換えるツール。
 
+※ root / sudo 権限では動作させないこと
+
 ## Replacement definition (置換定義ファイル)
 使うには、置換定義ファイルを用意します：
 
@@ -46,6 +48,11 @@ replaces:
     # out を書いていないので ../../tmp/depth1/d1-move-only.txt に出力され、placeholders がないため単純にコピーだけされる
     - template: "depth1/d1-move-only.txt"
 
+    # out を書いていないので ../../tmp/path/to/template.txt に出力される
+    # {{ ENV }} のプレースホルダーは development に置換される
+    - template: "path/to/template.txt"
+      placeholders:
+          ENV: development
 ```
 
 ### Sigil
