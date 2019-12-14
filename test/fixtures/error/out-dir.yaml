@@ -1,0 +1,6 @@
+startSigil: "{{"
+endSigil: "}}"
+templateDir: ../simple-replace
+
+replaces:
+    - template: "template-1.txt"

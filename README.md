@@ -55,6 +55,35 @@ replaces:
           ENV: development
 ```
 
+### ⚠️ やりがちなミス ⚠️
+#### こうすべきところを
+
+```
+startSigil: "{{"
+endSigil: "}}"
+templateDir: .
+outDir: .
+
+replaces:
+    - template: "1.png"
+      out: out.png
+```
+
+#### こう書いてしまう
+
+```
+startSigil: "{{"
+endSigil: "}}"
+templateDir: .
+outDir: .
+
+replaces:
+    - template: "1.png"
+    - out: out.png # ❌ 間違い！
+```
+
+間違いがあると、`Replacement Definition Syntax Error` を表示して異常終了します。
+
 ### Sigil
 [シジル](https://en.wikipedia.org/wiki/Sigil_(computer_programming))は各プレースホルダーの前後につけるものです。
 例えば `{{` `}}` というシジルで `PLACEHOLDER` というプレースホルダーを定義して、それをテンプレートに埋め込む場合 `{{PLACEHOLDER}}` を埋め込みます。

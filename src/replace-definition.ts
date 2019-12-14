@@ -15,8 +15,8 @@ interface Definition {
 
 interface Replace {
   template: string
-  out: string
-  placeholders: Placeholder
+  out?: string
+  placeholders?: Placeholder
 }
 
 interface Placeholder {
@@ -31,10 +31,29 @@ export default class ReplaceDefinition {
 
   constructor(filePath: string) {
     this.definition = yaml.safeLoad(fs.readFileSync(filePath, 'utf8'))
+    this.validateDefinition()
     this.sigils[0] = escapeStringRegexp(this.definition.startSigil)
     this.sigils[1] = escapeStringRegexp(this.definition.endSigil)
     this.templateBasePath = path.resolve(path.dirname(filePath), this.definition.templateDir)
     this.outputBasePath = path.resolve(path.dirname(filePath), this.definition.outDir)
+  }
+
+  validateDefinition() {
+    if (!this.definition.startSigil) {
+      throw new Error('Replacement Definition Syntax Error: `startSigil` must be specified')
+    }
+    if (!this.definition.endSigil) {
+      throw new Error('Replacement Definition Syntax Error: `endSigil` must be specified')
+    }
+    if (!this.definition.templateDir) {
+      throw new Error('Replacement Definition Syntax Error: `templateDir` must be specified')
+    }
+    if (!this.definition.outDir) {
+      throw new Error('Replacement Definition Syntax Error: `outDir` must be specified')
+    }
+    if (!this.definition.replaces.every(replace => replace.template)) {
+      throw new Error('Replacement Definition Syntax Error: `replaces[].template` must be specified')
+    }
   }
 
   replace(): Promise<void>[] {
