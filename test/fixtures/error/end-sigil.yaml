@@ -1,0 +1,6 @@
+startSigil: "{{"
+templateDir: ../simple-replace
+outDir: ../../tmp/error
+
+replaces:
+    - template: "template-1.txt"
