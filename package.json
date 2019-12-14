@@ -4,8 +4,8 @@
   "description": "テンプレートファイル中の任意のプレースホルダーテキストを一括で置き換えるツール。",
   "main": "dist/index.js",
   "bin": "bin/cli.js",
-  "prepublish": "npm run build",
   "scripts": {
+    "prepare": "npm run build",
     "test": "rm -r test/tmp/* ; mocha --require ts-node/register --colors test/unit/**/*.ts test/unit/*.ts",
     "dev": "ts-node src/index.ts",
     "build": "tsc"
