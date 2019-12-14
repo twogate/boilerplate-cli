@@ -1,6 +1,6 @@
 {
   "name": "@twogate/boilerplate",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "テンプレートファイル中の任意のプレースホルダーテキストを一括で置き換えるツール。",
   "main": "dist/index.js",
   "bin": "bin/cli.js",
@@ -14,13 +14,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/chai": "^4.2.6",
+    "@types/chai": "^4.2.7",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.14",
+    "@types/node": "^12.12.17",
     "chai": "^4.2.0",
     "mocha": "^6.2.2",
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.3"
   },
   "dependencies": {
     "@types/js-yaml": "^3.12.1",
