@@ -1,6 +1,6 @@
 {
   "name": "@twogate/boilerplate",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "テンプレートファイル中の任意のプレースホルダーテキストを一括で置き換えるツール。",
   "main": "dist/index.js",
   "bin": "bin/cli.js",
