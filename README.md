@@ -2,6 +2,8 @@
 
 テンプレートファイル中の任意のプレースホルダーテキストを一括で置き換えるツール。
 
+※ root / sudo 権限では動作させないこと
+
 ## Replacement definition (置換定義ファイル)
 使うには、置換定義ファイルを用意します：
 
@@ -32,6 +34,25 @@ replaces:
             DATABASE_URL: https://xxxxxxxx.firebaseio.com
             mobilesdk_app_id: xxx
             package_name: com.example.zoc
+```
+
+以下は `replaces[].out` と `replaces[].placeholders` を省略した形式です。
+
+```yaml
+startSigil: "{{"
+endSigil: "}}"
+templateDir: .
+outDir: ../../tmp
+
+replaces:
+    # out を書いていないので ../../tmp/depth1/d1-move-only.txt に出力され、placeholders がないため単純にコピーだけされる
+    - template: "depth1/d1-move-only.txt"
+
+    # out を書いていないので ../../tmp/path/to/template.txt に出力される
+    # {{ ENV }} のプレースホルダーは development に置換される
+    - template: "path/to/template.txt"
+      placeholders:
+          ENV: development
 ```
 
 ### Sigil
@@ -67,10 +88,14 @@ replaces:
 
 置換定義ファイルとテンプレート、出力先の相対的位置を固定しておけば、どこのカレントワーキングディレクトリにいても置換定義ファイルの定義どうりのパスが使われます。
 
+なお、 `outDir` は省略することができ、省略した場合は `template` と同じような構造のディレクトリが作られ、その中に出力されます。
+
 ### Placeholder
 プレースホルダーは `startSigil` + `\s*?` + `placeholderText` + `\s*?` + `endSigil` のような正規表現置換で行われているので、`{{PLACEHOLDER}}` だけでなく `{{ PLACEHOLDER }}` のような表記も可能です。
 
 なお、`startSigil` `endSigil` とプレースホルダーテキストには正規表現は利用できません。
+
+`replaces[].placeholders` を書かなかった場合、そのままコピーされます。
 
 ## 実行
 置換定義ファイルを書いたら、そのパスを指定して実行します。

@@ -1,7 +1,9 @@
 import * as yaml from 'js-yaml'
 import * as fs from 'fs'
+import { promises as fsPromises } from 'fs'
 import * as path from 'path'
 import escapeStringRegexp from "escape-string-regexp"
+import recursiveMkdir from './recursive-mkdir'
 
 interface Definition {
   startSigil: string
@@ -35,18 +37,28 @@ export default class ReplaceDefinition {
     this.outputBasePath = path.resolve(path.dirname(filePath), this.definition.outDir)
   }
 
-  replace() {
-    this.definition.replaces.forEach(replace => this.replaceFiles(replace))
+  replace(): Promise<void>[] {
+    return this.definition.replaces.map(replace => this.replaceFiles(replace))
   }
 
   replaceFiles(replace: Replace) {
-      const templatePath = path.resolve(this.templateBasePath, replace.template)
-      const outPath = path.resolve(this.outputBasePath, replace.out)
-      console.log('[templatePath]' , templatePath)
-      console.log('[outPath]' , outPath)
-      const template = fs.readFileSync(templatePath, 'utf8')
+    const templatePath = path.resolve(this.templateBasePath, replace.template)
+    let outPath
+    if (replace.out) {
+      outPath = path.resolve(this.outputBasePath, replace.out)
+    } else {
+      outPath = path.resolve(this.outputBasePath, replace.template)
+    }
+    console.log('[templatePath]' , templatePath)
+    console.log(' --> [outPath]' , outPath)
+    recursiveMkdir(outPath)
+    const template = fs.readFileSync(templatePath, 'utf8')
+    if (replace.placeholders) {
       const replaced = this.replacePlaceholders(template, replace.placeholders)
-      fs.writeFileSync(outPath, replaced)
+      return fsPromises.writeFile(outPath, replaced)
+    } else {
+      return fsPromises.copyFile(templatePath, outPath)
+    }
   }
 
   replacePlaceholders(template: string, placeholders: Placeholder) {
