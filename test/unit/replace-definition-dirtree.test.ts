@@ -1,12 +1,13 @@
 import * as fs from 'fs'
 import { expect  } from 'chai'
 
-import ReplaceDefinition from '../../src/replace-definition'
+import { ReplaceDefinition } from '../../src/replace-definition'
 
 describe('replace-definition dirtree test', () => {
   let rd
   before(async () => {
-    rd = new ReplaceDefinition('./test/fixtures/dir-tree/replacement.yml')
+    rd = new ReplaceDefinition()
+    rd.loadYamlDefinition('./test/fixtures/dir-tree/replacement.yml')
     await Promise.all(rd.replace())
   })
 

@@ -1,12 +1,13 @@
 import * as fs from 'fs'
 import { expect  } from 'chai'
 
-import ReplaceDefinition from '../../src/replace-definition'
+import { ReplaceDefinition } from '../../src/replace-definition'
 
 describe('replace-definition test', () => {
   let rd
   before(() => {
-    rd = new ReplaceDefinition('./test/fixtures/simple-replace/replacement.yaml')
+    rd = new ReplaceDefinition()
+    rd.loadYamlDefinition('./test/fixtures/simple-replace/replacement.yaml')
     rd.replace()
   })
 

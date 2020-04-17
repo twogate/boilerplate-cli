@@ -5,7 +5,7 @@ import * as path from 'path'
 import escapeStringRegexp from "escape-string-regexp"
 import recursiveMkdir from './recursive-mkdir'
 
-interface Definition {
+export interface Definition {
   startSigil: string
   endSigil: string
   templateDir: string
@@ -13,23 +13,32 @@ interface Definition {
   replaces: Replace[]
 }
 
-interface Replace {
+export interface Replace {
   template: string
   out?: string
   placeholders?: Placeholder
 }
 
-interface Placeholder {
+export interface Placeholder {
   [placeholder: string]: string | number | boolean | null
 }
 
-export default class ReplaceDefinition {
-  definition: Definition
+export class ReplaceDefinition {
+  definition: Definition = {
+    startSigil: '',
+    endSigil: '',
+    templateDir: '',
+    outDir: '',
+    replaces: []
+  }
   sigils: string[] = ['', '']
-  templateBasePath: string
-  outputBasePath: string
+  templateBasePath: string = '.'
+  outputBasePath: string = '.'
 
-  constructor(filePath: string) {
+  constructor(definition?: Definition, templateBasePath?: string, outputBasePath?: string) {
+  }
+
+  loadYamlDefinition(filePath: string) {
     this.definition = yaml.safeLoad(fs.readFileSync(filePath, 'utf8'))
     this.validateDefinition()
     this.sigils[0] = escapeStringRegexp(this.definition.startSigil)
