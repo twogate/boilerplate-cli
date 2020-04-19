@@ -132,3 +132,9 @@ replaces:
 ```bash
 npx @twogate/boilerplate path/to/replacement.yml
 ```
+
+第二引数としてパスを渡すと、そのパスを出力先(outDir)とします。
+
+```bash
+npx @twogate/boilerplate path/to/replacement.yml path/to/outDir
+```

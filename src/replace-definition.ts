@@ -38,13 +38,13 @@ export class ReplaceDefinition {
   constructor(definition?: Definition, templateBasePath?: string, outputBasePath?: string) {
   }
 
-  loadYamlDefinition(filePath: string) {
+  loadYamlDefinition(filePath: string, overrideOutputBasePath?: string) {
     this.definition = yaml.safeLoad(fs.readFileSync(filePath, 'utf8'))
     this.validateDefinition()
     this.sigils[0] = escapeStringRegexp(this.definition.startSigil)
     this.sigils[1] = escapeStringRegexp(this.definition.endSigil)
     this.templateBasePath = path.resolve(path.dirname(filePath), this.definition.templateDir)
-    this.outputBasePath = path.resolve(path.dirname(filePath), this.definition.outDir)
+    this.outputBasePath = overrideOutputBasePath ? overrideOutputBasePath : path.resolve(path.dirname(filePath), this.definition.outDir)
   }
 
   validateDefinition() {

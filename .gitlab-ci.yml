@@ -14,7 +14,12 @@ npm-install:
   script:
     - npm install
 
-test:
+test-unit:
   stage: test
   script:
     - npm run test
+
+test-e2e:
+  stage: test
+  script:
+    - npm run e2e

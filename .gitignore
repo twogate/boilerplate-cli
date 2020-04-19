@@ -69,6 +69,6 @@ typings/
 .env
 .next
 
-test/tmp
+test/tmp*
 
 dist/
