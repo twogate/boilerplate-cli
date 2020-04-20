@@ -12,7 +12,7 @@ stages:
 npm-install:
   stage: prepare
   script:
-    - npm install
+    - npm ci
 
 test-unit:
   stage: test
