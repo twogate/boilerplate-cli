@@ -6,7 +6,7 @@ describe('e2e command execute test', () => {
   it('relative', (done) => {
     process.argv[2] = './test/fixtures/simple-replace/replacement.yaml'
     process.argv[3] = './test/tmp-e2e'
-    require('../../src/main')
+    require('../../src/main')()
     setTimeout(() => {
       const out = fs.readFileSync('./test/tmp-e2e/out-1.txt', 'utf8')
       const validOut = fs.readFileSync('./test/fixtures/simple-replace/valid-out-1.txt', 'utf8')
@@ -17,7 +17,7 @@ describe('e2e command execute test', () => {
   it('absolute', (done) => {
     process.argv[2] = './test/fixtures/simple-replace/replacement.yaml'
     process.argv[3] = '/tmp/twogateboilerplatecli/e2e'
-    require('../../src/main')
+    require('../../src/main')()
     setTimeout(() => {
       const out = fs.readFileSync('/tmp/twogateboilerplatecli/e2e/out-2.txt', 'utf8')
       const validOut = fs.readFileSync('./test/fixtures/simple-replace/valid-out-2.txt', 'utf8')

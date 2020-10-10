@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('@twogate/boilerplate/dist/main')
+require('@twogate/boilerplate/dist/main')()

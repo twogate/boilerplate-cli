@@ -49,6 +49,7 @@ export class ReplaceDefinition {
     this.sigils[1] = escapeStringRegexp(this.definition.endSigil)
     this.templateBasePath = path.resolve(path.dirname(filePath), this.definition.templateDir)
     this.outputBasePath = overrideOutputBasePath ? overrideOutputBasePath : path.resolve(path.dirname(filePath), this.definition.outDir)
+    console.log(this.outputBasePath)
   }
 
   validateDefinition() {
