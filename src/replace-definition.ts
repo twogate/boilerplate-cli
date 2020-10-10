@@ -39,7 +39,11 @@ export class ReplaceDefinition {
   }
 
   loadYamlDefinition(filePath: string, overrideOutputBasePath?: string) {
-    this.definition = yaml.safeLoad(fs.readFileSync(filePath, 'utf8'))
+    const definition = yaml.safeLoad(fs.readFileSync(filePath, 'utf8'))
+    if (!definition || typeof definition == 'string') {
+      throw new Error("Invalid YAML")
+    }
+    this.definition = <Definition>definition
     this.validateDefinition()
     this.sigils[0] = escapeStringRegexp(this.definition.startSigil)
     this.sigils[1] = escapeStringRegexp(this.definition.endSigil)
