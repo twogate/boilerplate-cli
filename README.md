@@ -1,22 +1,24 @@
 # Boilerplate CLI
 
-テンプレートファイル中の任意のプレースホルダーテキストを一括で置き換えるツール。
+[日本語](README.ja.md)
 
-※ root / sudo 権限では動作させないこと
+A tool that replaces any placeholder text in a template file in bulk.
+
+* Do not run with root / sudo privileges
 
 ## Replacement definition (置換定義ファイル)
-使うには、置換定義ファイルを用意します：
+To use it, prepare a replacement definition file:
 
 ```yaml
-startSigil: "{{"         # 置き換えプレースホルダー開始sigil
-endSigil: "}}"           # 置き換えプレースホルダー終了sigil
-templateDir: ./templates # 入力側ディレクトリのベース
-outDir: ./               # 出力側ディレクトリのベース
+startSigil: "{{"         # placeholder starts with this sign
+endSigil: "}}"           # placeholder ends with this sign
+templateDir: ./templates # base input directory
+outDir: ./               # base output directory
 
 replaces:
-    -   template: "./config.template.xml" # 入力 (templateDir + template)
-        out: "./config.xml"               # 出力 (outDir + out)
-        placeholders:                     # 置き換えるプレースホルダー: 置き換え先の値
+    -   template: "./config.template.xml" # input file (templateDir + template)
+        out: "./config.xml"               # output file (outDir + out)
+        placeholders:                     # replacement key:value
             name: ZOC
             CFBundleDisplayName: ZOC
             APP_NAME: ZOC
@@ -36,7 +38,7 @@ replaces:
             package_name: com.example.zoc
 ```
 
-以下は `replaces[].out` と `replaces[].placeholders` を省略した形式です。
+The following is the format with `replaces[].out` and `replaces[].placeholders` omitted.
 
 ```yaml
 startSigil: "{{"
@@ -45,18 +47,18 @@ templateDir: .
 outDir: ../../tmp
 
 replaces:
-    # out を書いていないので ../../tmp/depth1/d1-move-only.txt に出力され、placeholders がないため単純にコピーだけされる
+    # Since you didn't write out `../../tmp/depth1/d1-move-only.txt`, it is simply copied because there are no placeholders.
     - template: "depth1/d1-move-only.txt"
 
-    # out を書いていないので ../../tmp/path/to/template.txt に出力される
-    # {{ ENV }} のプレースホルダーは development に置換される
+    # Since you didn't write out `... /... /tmp/path/to/template.txt`.
+    # The placeholder of "{{ ENV }}" is replaced by "development".
     - template: "path/to/template.txt"
       placeholders:
           ENV: development
 ```
 
-### ⚠️ やりがちなミス ⚠️
-#### こうすべきところを
+### ⚠️ Common Mistakes ⚠️
+#### Wrong
 
 ```
 startSigil: "{{"
@@ -69,7 +71,7 @@ replaces:
       out: out.png
 ```
 
-#### こう書いてしまう
+#### Correct
 
 ```
 startSigil: "{{"
@@ -79,16 +81,18 @@ outDir: .
 
 replaces:
     - template: "1.png"
-    - out: out.png # ❌ 間違い！
+    - out: out.png # ❌ WRONG!
 ```
 
-間違いがあると、`Replacement Definition Syntax Error` を表示して異常終了します。
+Confirm YAML syntax.
+
+If something wrong is found with syntax, the boilerplate-cli will crash with a `Replacement Definition Syntax Error`.
 
 ### Sigil
-[シジル](https://en.wikipedia.org/wiki/Sigil_(computer_programming))は各プレースホルダーの前後につけるものです。
-例えば `{{` `}}` というシジルで `PLACEHOLDER` というプレースホルダーを定義して、それをテンプレートに埋め込む場合 `{{PLACEHOLDER}}` を埋め込みます。
+[Sigil](https://en.wikipedia.org/wiki/Sigil_(computer_programming)) is attached before and after each placeholder.
+For example, if you define a placeholder called `PLACEHOLDER`, with sigil defined with `{{` `}}`, write `{{PLACEHOLDER}}`.
 
-その場合、置換定義ファイルは:
+In that case, the replacement definition file would be :
 
 ```yaml
 startSigil: "{{"
@@ -100,40 +104,40 @@ replaces:
         PLACEHOLDER: '...'
 ```
 
-のように定義します。
-
 ### Path resolution
-パスの定義は、 
-- テンプレート
+The path definition is resolved as follows
+- template
    - `templateDir` → `replaces[].template`
-- 出力先
+- output location
    - `outDir` → `replaces[].out`
 
-と解決されます。
+It's a good idea to squeeze out the common parts with `templateDir` or `outDir` and define only the differences with `template` or `out` of each `replaces`.
 
-基本的に共通する部分を `templateDir` または `outDir` にくくり出して、差異がある部分だけ各 `replaces` の `template` または `out` で定義すると良いでしょう。
+If everything is a relative path, it will be resolved with the relative path from the replacement definition file.
 
-全てが相対パスだった場合、置換定義ファイルから見た相対パスで解決されます。
+If you fix the relative positions of the replacement definition file, template, and output destination, the path of the replacement definition file will be used regardless of the current working directory.
 
-置換定義ファイルとテンプレート、出力先の相対的位置を固定しておけば、どこのカレントワーキングディレクトリにいても置換定義ファイルの定義どうりのパスが使われます。
-
-なお、 `outDir` は省略することができ、省略した場合は `template` と同じような構造のディレクトリが作られ、その中に出力されます。
+Note that `outDir` can be omitted. If omitted, a directory with the same structure as `template` will be created and output in that directory.
 
 ### Placeholder
-プレースホルダーは `startSigil` + `\s*?` + `placeholderText` + `\s*?` + `endSigil` のような正規表現置換で行われているので、`{{PLACEHOLDER}}` だけでなく `{{ PLACEHOLDER }}` のような表記も可能です。
+Placeholders are done with regular expression substitution like 
+`startSigil` + `\s*?` + `placeholderText` + `\s*?` + `endSigil`.
 
-なお、`startSigil` `endSigil` とプレースホルダーテキストには正規表現は利用できません。
+So you can write `{{ PLACEHOLDER }}` not only 
+`{{PLACEHOLDER}}`.
 
-`replaces[].placeholders` を書かなかった場合、そのままコピーされます。
+Can't use regular expression in `startSigil`, `endSigil`, placeholder text.
 
-## 実行
-置換定義ファイルを書いたら、そのパスを指定して実行します。
+If you do not write `replaces[].placeholders`, the replacement process will not be performed and the copy will be made as is.
+
+## Run
+After writing the replacement definition file, specify the path and execute boilerplate-cli.
 
 ```bash
 npx @twogate/boilerplate path/to/replacement.yml
 ```
 
-第二引数としてパスを渡すと、そのパスを出力先(outDir)とします。
+If you pass a path as the second argument, that path will be the output destination (outDir).
 
 ```bash
 npx @twogate/boilerplate path/to/replacement.yml path/to/outDir

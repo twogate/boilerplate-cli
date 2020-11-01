@@ -1,7 +1,7 @@
 {
   "name": "@twogate/boilerplate",
-  "version": "1.2.1",
-  "description": "テンプレートファイル中の任意のプレースホルダーテキストを一括で置き換えるツール。",
+  "version": "1.2.2",
+  "description": "A tool that replaces any placeholder text in a input file in bulk.",
   "main": "dist/index.js",
   "bin": "bin/cli.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.2.13",
     "@types/mocha": "^8.0.3",
@@ -36,6 +36,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.l.twogate.net:fanapp/boilerplate-cli.git"
+    "url": "git@github.com:twogate/boilerplate-cli.git"
   }
 }
