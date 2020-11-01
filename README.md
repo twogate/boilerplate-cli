@@ -6,7 +6,7 @@ A tool that replaces any placeholder text in a template file in bulk.
 
 * Do not run with root / sudo privileges
 
-## Replacement definition (置換定義ファイル)
+## Replacement definition
 To use it, prepare a replacement definition file:
 
 ```yaml
